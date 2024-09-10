@@ -15,13 +15,13 @@ public class DeleteUserTest {
         String password = "qwerty0707";
         LoginRequest requestBody = new LoginRequest(email, password);
         Response response = postRequest("/api/auth/login", 200, requestBody);
-        String loginResponseAccessToken = response.body().jsonPath().getString("accessToken");
-        assertFalse(loginResponseAccessToken.isEmpty());
+        String accessToken = response.body().jsonPath().getString("accessToken");
+        assertFalse(accessToken.isEmpty());
 
 
-        Response response1 = getRequestWithAccessToken("api/me", 200, "accessToken");
-        String id = response1.body().jsonPath().getString("id");
-        Response deleteResponse = deleteRequestWithAccessToken("api/users/" + id, 403, "accessToken" );
+        Response response1 = getRequestWithAccessToken("api/me", 200,accessToken);
+        String userId = response1.body().jsonPath().getString("id");
+        Response deleteResponse = deleteRequestWithAccessToken("api/users/" + userId, 403, accessToken);
 
         String errorMessage = deleteResponse.body().jsonPath().getString("message");
 

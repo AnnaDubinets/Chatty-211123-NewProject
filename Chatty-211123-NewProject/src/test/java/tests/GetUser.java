@@ -27,7 +27,7 @@ public class GetUser {
         assertFalse(accessToken.isEmpty());
 
 
-        Response response1 = getRequestWithAccessToken("api/me", 200, "accessToken");
+        Response response1 = getRequestWithAccessToken("api/me", 200,accessToken);
         String id = response1.body().jsonPath().getString("id");
        System.out.println(id);
 
