@@ -8,8 +8,7 @@ import org.junit.jupiter.api.Test;
 
 import static io.restassured.RestAssured.given;
 import static org.junit.jupiter.api.Assertions.assertFalse;
-import static tests.BaseTest.getRequest;
-import static tests.BaseTest.postRequest;
+import static tests.BaseTest.*;
 
 public class GetUser {
 
@@ -23,27 +22,14 @@ public class GetUser {
         //assertFalse(accessToken.getAccessToken().isEmpty());
         //String refreshToken = response.body().jsonPath().getString("refreshToken");
 
-        LoginResponse accessToken = response.body().jsonPath().getObject("",LoginResponse.class);
-
-        assertFalse(accessToken.getAccessToken().isEmpty());
-
-        UserData user = given().baseUri("http://chatty.telran-edu.de:8989/")
-                .header("\n" +
-                        "Authorization", "accessToken")
-                .when().log().all()
-                .get("/api/me")
-                .then().log().all().statusCode(200).extract().body()
-                .jsonPath().getObject("", UserData.class);
+        String accessToken = response.body().jsonPath().getString("accessToken");
+       // System.out.println(accessToken);
+        assertFalse(accessToken.isEmpty());
 
 
-
-        //UserData userData = response.body().jsonPath().getObject("", UserData.class);
-
-        //LoginResponse accessToken = response.body().jsonPath().getObject(" ", LoginResponse.class);
-
-        //String loginResponseAccessToken = response.body().jsonPath().getObject("", LoginResponse.class); //забрать все
-        //assertFalse(loginResponseAccessToken.isEmpty());
-
+        Response response1 = getRequestWithAccessToken("api/me", 200, "accessToken");
+        String id = response1.body().jsonPath().getString("id");
+       System.out.println(id);
 
     }
 

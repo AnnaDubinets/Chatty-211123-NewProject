@@ -75,10 +75,10 @@ public class BaseTest {
         return response;
     }
 
-    public static Response getRequestWithAccessToken(String endpoint, Integer expectedStatusCode, String token){
+    public static Response getRequestWithAccessToken(String endpoint, Integer expectedStatusCode, String accessToken){
         Response response = given()
                 .spec(specification)
-                .header("Authorization", "Bearer " + token)
+                .header("Authorization", "Bearer " + accessToken)
                 .when()
                 .log().all()
                 .get(endpoint)
@@ -88,6 +88,21 @@ public class BaseTest {
                 .extract().response();
         return response;
 
+    }
+
+    public static Response putRequestWithAccessToken(String endpoint, Integer expectedStatusCode, Object body, String accessToken){
+        Response response = given()
+                .spec(specification)
+                .header("Authorization", "Bearer " + accessToken)
+                .body(body)
+                .when()
+                .log().all()
+                .put(endpoint)
+                .then()
+                .log().all()
+                .statusCode(expectedStatusCode)
+                .extract().response();
+        return response;
     }
 
 }
