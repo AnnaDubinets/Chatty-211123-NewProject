@@ -16,20 +16,14 @@ public class GetUser {
     public void validUserDataTest() {
 
         LoginRequest loginRequest = new LoginRequest("johnsmith@gmail.com", "qwerty0707");
-
         Response response = postRequest("api/auth/login", 200, loginRequest);
-
-        //assertFalse(accessToken.getAccessToken().isEmpty());
-        //String refreshToken = response.body().jsonPath().getString("refreshToken");
-
         String accessToken = response.body().jsonPath().getString("accessToken");
-       // System.out.println(accessToken);
+        // System.out.println(accessToken);
         assertFalse(accessToken.isEmpty());
 
-
-        Response response1 = getRequestWithAccessToken("api/me", 200,accessToken);
+        Response response1 = getRequestWithAccessToken("api/me", 200, accessToken);
         String id = response1.body().jsonPath().getString("id");
-       System.out.println(id);
+        System.out.println(id);
 
     }
 
