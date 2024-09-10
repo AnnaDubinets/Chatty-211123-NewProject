@@ -17,5 +17,5 @@ public class UpdateUserRequest {
     private String gender;
     private String tittle;
     private String phone;
-    private String birthdate;
+    private String birthDate;
 }
