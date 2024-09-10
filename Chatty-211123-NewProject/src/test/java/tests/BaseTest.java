@@ -75,4 +75,19 @@ public class BaseTest {
         return response;
     }
 
+    public static Response getRequestWithAccessToken(String endpoint, Integer expectedStatusCode, String token){
+        Response response = given()
+                .spec(specification)
+                .header("Authorization", "Bearer " + token)
+                .when()
+                .log().all()
+                .get(endpoint)
+                .then()
+                .log().all()
+                .statusCode(expectedStatusCode)
+                .extract().response();
+        return response;
+
+    }
+
 }
