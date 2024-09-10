@@ -105,4 +105,18 @@ public class BaseTest {
         return response;
     }
 
+    public static Response deleteRequestWithAccessToken(String endpoint, Integer expectedStatusCode, String accessToken){
+        Response response = given()
+                .spec(specification)
+                .header("Authorization", "Bearer " + accessToken)
+                .when()
+                .log().all()
+                .delete(endpoint)
+                .then()
+                .log().all()
+                .statusCode(expectedStatusCode)
+                .extract().response();
+        return response;
+    }
+
 }

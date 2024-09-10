@@ -15,7 +15,7 @@ public class GetUser {
     @Test
     public void validUserDataTest() {
 
-        LoginRequest loginRequest = new LoginRequest("johnsmith@gmail.com", "qwerty070709");
+        LoginRequest loginRequest = new LoginRequest("johnsmith@gmail.com", "qwerty0707");
 
         Response response = postRequest("api/auth/login", 200, loginRequest);
 
