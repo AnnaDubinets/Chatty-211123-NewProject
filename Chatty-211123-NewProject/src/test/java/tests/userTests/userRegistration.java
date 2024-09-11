@@ -4,8 +4,8 @@ import com.github.javafaker.Faker;
 import dto.UserCreateRequest;
 import io.restassured.response.Response;
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import static org.junit.jupiter.api.Assertions.*;
 import static tests.BaseTest.postRequest;
 
 public class userRegistration {
@@ -22,5 +22,23 @@ public class userRegistration {
         assertFalse(refreshToken.isEmpty());
         String expiration = response.body().jsonPath().getString("expiration");
         assertFalse(expiration.isEmpty());
+    }
+
+    @Test
+    public void userRegisterInvalidEmailTest(){
+        UserCreateRequest userCreate = new UserCreateRequest("donna", "donna999", "donna999", "admin");
+        Response response = postRequest("api/auth/register", 400, userCreate);
+        String errorMessage = response.body().jsonPath().getString("email");
+        assertTrue(errorMessage.contains("Email is not valid."));
+
+    }
+
+    @Test
+    public void userRegisterInvalidPasswordTest(){
+        UserCreateRequest userCreate = new UserCreateRequest("donna@gmail.com", "donna99", "donna99", "admin");
+        Response response = postRequest("api/auth/register", 400, userCreate);
+        String errorMessage = response.body().jsonPath().getString("password");
+        assertTrue(errorMessage.contains("Password must contain at least 8 characters"));
+
     }
 }
