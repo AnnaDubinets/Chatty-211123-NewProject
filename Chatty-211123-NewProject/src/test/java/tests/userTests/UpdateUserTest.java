@@ -34,21 +34,29 @@ public class UpdateUserTest {
         String loginResponseAccessToken = response.body().jsonPath().getString("accessToken");
         assertFalse(loginResponseAccessToken.isEmpty());
 
-        UpdateUserRequest updateRequest = new UpdateUserRequest();
-        updateRequest.setName("Harvey");
-        updateRequest.setSurname("Specter");
-        updateRequest.setPhone("+1234567890");
-        updateRequest.setBirthDate("1982-05-01T00:00:00.000Z");
-        updateRequest.setGender("MALE");
+      UpdateUserRequest updateRequest = new UpdateUserRequest().builder()
+              .name("Harvey")
+              .surname("Spector")
+              .phone("+1289567890")
+              .birthDate("1972-01-01T00:00:00.000Z")
+              .gender("MALE")
+              .build();
+
+//      UpdateUserRequest updateRequest = new UpdateUserRequest();
+//      updateRequest.setName("Harvey");
+//      updateRequest.setSurname("Specter");
+//      updateRequest.setPhone("+1234567890");
+//      updateRequest.setBirthDate("1982-05-01T00:00:00.000Z");
+//      updateRequest.setGender("MALE");
 
         Response response1 = getRequestWithAccessToken("api/me", 200, loginResponseAccessToken);
         String id = response1.body().jsonPath().getString("id");
         Response updateResponse = putRequestWithAccessToken("api/users/" + id, 200, updateRequest, loginResponseAccessToken);
 
         assertEquals("Harvey", updateResponse.body().jsonPath().getString("name"));
-        assertEquals("Specter", updateResponse.body().jsonPath().getString("surname"));
-        assertEquals("1982-05-01T00:00:00.000Z", updateResponse.body().jsonPath().getString("birthDate"));
-        assertEquals("+1234567890", updateResponse.body().jsonPath().getString("phone"));
+        assertEquals("Spector", updateResponse.body().jsonPath().getString("surname"));
+        assertEquals("1972-01-01T00:00:00.000Z", updateResponse.body().jsonPath().getString("birthDate"));
+        assertEquals("+1289567890", updateResponse.body().jsonPath().getString("phone"));
         assertEquals("MALE", updateResponse.body().jsonPath().getString("gender"));
     }
 }
