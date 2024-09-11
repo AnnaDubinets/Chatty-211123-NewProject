@@ -41,4 +41,12 @@ public class userRegistration {
         assertTrue(errorMessage.contains("Password must contain at least 8 characters"));
 
     }
+    @Test
+    public void userRegisterIncorrectConfirmPasswordTest(){
+        UserCreateRequest userCreate = new UserCreateRequest("donna678@gmail.com", "donna678", "donna679", "admin");
+        Response response = postRequest("api/auth/register", 400, userCreate);
+        String errorMessage = response.body().jsonPath().getString("message ");
+        assertTrue(errorMessage.contains("Password mismatch!"));
+
+    }
 }
