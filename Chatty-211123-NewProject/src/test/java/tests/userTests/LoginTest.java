@@ -36,11 +36,8 @@ public class LoginTest {
 
     @Test
     public void withoutEmail() {
-        String email = "";
-        String password = "qwerty0707";
-        // String
 
-        LoginRequest requestBody = new LoginRequest(email, password);
+        LoginRequest requestBody = new LoginRequest("", "qwerty0707");
         Response response = postRequest("/api/auth/login", 400, requestBody);
 
         //String loginResponseAccessToken = response.body().jsonPath().getObject("", LoginResponse.class); //забрать все
@@ -54,10 +51,8 @@ public class LoginTest {
 
     @Test
     public void invalidPasswordWithOnlyNumbers() {
-        String email = "johnsmith@gmail.com";
-        String password = "12334";
 
-        LoginRequest requestBody = new LoginRequest(email, password);
+        LoginRequest requestBody = new LoginRequest("johnsmith@gmail.com", "12334");
         Response response = postRequest("/api/auth/login", 400, requestBody);
 
         //String loginResponseAccessToken = response.body().jsonPath().getObject("", LoginResponse.class); //забрать все
@@ -65,6 +60,7 @@ public class LoginTest {
 
         List<String> errorMessages = response.body().jsonPath().getList("password", String.class);
         assertTrue(errorMessages.contains("Password must contain letters and numbers"));
+        assertTrue(errorMessages.contains("Password must contain at least 8 characters"));
 
     }
 }
