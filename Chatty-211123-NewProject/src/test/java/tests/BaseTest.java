@@ -119,4 +119,19 @@ public class BaseTest {
         return response;
     }
 
+    public static Response postRequestWithAccessToken(String endpoint, Integer expectedStatusCode, Object body,String accessToken){
+        Response response = given()
+                .spec(specification)
+                .header("Authorization", "Bearer " + accessToken)
+                .body(body)
+                .when()
+                .log().all()
+                .post(endpoint)
+                .then()
+                .log().all()
+                .statusCode(expectedStatusCode)
+                .extract().response();
+        return response;
+    }
+
 }

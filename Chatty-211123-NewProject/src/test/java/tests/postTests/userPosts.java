@@ -1,6 +1,7 @@
 package tests.postTests;
 
 import dto.LoginRequest;
+import dto.PostData;
 import dto.UpdatePost;
 import dto.UpdateUserRequest;
 import io.restassured.response.Response;
@@ -77,7 +78,44 @@ public class userPosts {
         assertEquals("new body", response3.getBody().jsonPath().getString("body"));
 
 
+    }
 
+    @Test
+    public void allUsersPostsTest(){
+        LoginRequest loginRequest = new LoginRequest("johnsmith@gmail.com", "qwerty0707");
+        Response response = postRequest("api/auth/login", 200, loginRequest);
+        String accessToken = response.body().jsonPath().getString("accessToken");
+        Response response1 = getRequestWithAccessToken("api/posts?skip=0&limit=10", 200, accessToken);
+
+    }
+
+    @Test
+    public void draftPostsCheckTest(){
+        LoginRequest loginRequest = new LoginRequest("johnsmith@gmail.com", "qwerty0707");
+        Response response = postRequest("api/auth/login", 200, loginRequest);
+        String accessToken = response.body().jsonPath().getString("accessToken");
+        Response response1 = getRequestWithAccessToken("api/posts/drafts", 200, accessToken);
+    }
+
+    @Test
+    public void createPostTest(){
+        LoginRequest loginRequest = new LoginRequest("johnsmith@gmail.com", "qwerty0707");
+        Response response = postRequest("api/auth/login", 200, loginRequest);
+        String accessToken = response.body().jsonPath().getString("accessToken");
+        PostData postData = new PostData("New post", "My job", "NY");
+        Response response1 = postRequestWithAccessToken("api/posts", 201, postData, accessToken);//STATUS CODE!!!
+        String postId = response1.body().jsonPath().getString("id");
+        System.out.println(postId);
+
+    }
+
+    @Test
+    public void deletePostTest(){
+        LoginRequest loginRequest = new LoginRequest("johnsmith@gmail.com", "qwerty0707");
+        Response response = postRequest("api/auth/login", 200, loginRequest);
+        String accessToken = response.body().jsonPath().getString("accessToken");
+        String postId = "ca15a4b2-2042-4978-bf89-2d512485bd59";//take the postId from the previous test(create test)
+        Response response1 = deleteRequestWithAccessToken("api/posts/" + postId, 204,accessToken );//STATUS CODE!!!
     }
 
 }

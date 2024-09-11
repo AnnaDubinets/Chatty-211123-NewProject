@@ -13,5 +13,5 @@ public class PostData {
     private String title;
     private String body;
     private String description;
-    private String id;
+
 }
