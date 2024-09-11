@@ -17,21 +17,19 @@ public class LoginTest {
     public void successLogin(){
 
 
-        LoginRequest loginRequest = new LoginRequest("johnsmith@gmail.com", "qwerty070709");
-
+        LoginRequest loginRequest = new LoginRequest("johnsmith@gmail.com", "qwerty0707");
         Response response = postRequest("api/auth/login", 200, loginRequest);
+        String loginResponseAccessToken = response.body().jsonPath().getString("accessToken"); //забрать все
+        assertFalse(loginResponseAccessToken.isEmpty());
 
-        LoginResponse accessToken = response.body().jsonPath().getObject("",LoginResponse.class);
-
-        assertFalse(accessToken.getAccessToken().isEmpty());
-
+//        LoginResponse accessToken = response.body().jsonPath().getObject("",LoginResponse.class);
+//        assertFalse(accessToken.getAccessToken().isEmpty());
 
         LoginResponse refreshToken = response.body().jsonPath().getObject("",LoginResponse.class);
-
         assertFalse(refreshToken.getRefreshToken().isEmpty());
 
-        LoginResponse expiration = response.body().jsonPath().getObject("",LoginResponse.class);
 
+        LoginResponse expiration = response.body().jsonPath().getObject("",LoginResponse.class);
         assertFalse(expiration.getRefreshToken().isEmpty());
 
     }
