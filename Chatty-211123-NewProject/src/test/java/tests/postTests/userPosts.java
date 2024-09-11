@@ -2,11 +2,13 @@ package tests.postTests;
 
 import dto.LoginRequest;
 import dto.UpdatePost;
+import dto.UpdateUserRequest;
 import io.restassured.response.Response;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
+import static java.util.stream.DoubleStream.builder;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static tests.BaseTest.*;
@@ -59,15 +61,20 @@ public class userPosts {
 
         String firstPostId = postsId.get(0); //we got the first posts id in list
 
-        UpdatePost updatePost = new UpdatePost();
-        Response response3 = putRequestWithAccessToken("api/posts/" + firstPostId, 200,updatePost, accessToken);
-        updatePost.setTitle("New title");
-        updatePost.setDescription("Nice");
-        updatePost.setBody("New text");
+        UpdatePost updatePost = new UpdatePost().builder()
+                .title("Harvey")
+                .description("Spector")
+                .body("new body")
+                .build();
 
-        assertEquals("New title", response3.getBody().jsonPath().getString("title"));
-        assertEquals("Nice", response3.getBody().jsonPath().getString("description"));
-        assertEquals("New text", response3.getBody().jsonPath().getString("body"));
+        Response response3 = putRequestWithAccessToken("api/posts/" + firstPostId, 200,updatePost, accessToken);
+//        updatePost.setTitle("New title");
+//        updatePost.setDescription("Nice");
+//        updatePost.setBody("New text");
+
+        assertEquals("Harvey", response3.getBody().jsonPath().getString("title"));
+        assertEquals("Spector", response3.getBody().jsonPath().getString("description"));
+        assertEquals("new body", response3.getBody().jsonPath().getString("body"));
 
 
 
