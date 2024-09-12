@@ -152,6 +152,7 @@ public class BaseTest {
                 //.body()
                 .multiPart("multipartFile", imageFile)
                 //.formParams(imageFile).relaxedHTTPSValidation()
+                .accept(ContentType.JSON)
                 .when()
                 .log().all()
                 .post(BASE_URI + endpoint)

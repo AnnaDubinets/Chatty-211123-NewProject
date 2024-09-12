@@ -5,8 +5,10 @@ import dto.LoginRequest;
 import io.restassured.response.Response;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
+import java.util.List;
+import java.util.Map;
+
+import static org.junit.jupiter.api.Assertions.*;
 import static tests.BaseTest.*;
 
 public class AdminTests {
@@ -18,5 +20,7 @@ public class AdminTests {
         String accessToken = response.body().jsonPath().getString("accessToken");
         Response response1 = getRequestWithAccessToken("api/users?email=donna666@gmail.com&skip=0&limit=10", 200, accessToken);
 
+        List<Map<String, Object>> dataArray = response1.jsonPath().getList("data");
+        assertTrue(dataArray.size() > 1);
     }
 }
