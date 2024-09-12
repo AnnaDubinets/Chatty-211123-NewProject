@@ -5,6 +5,8 @@ import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
 
+import java.io.File;
+
 import static io.restassured.RestAssured.given;
 
 public class BaseTest {
@@ -18,6 +20,13 @@ public class BaseTest {
             .addHeader("app-id", APP_ID_VALUE)
             .setContentType(ContentType.JSON)
             .build();
+
+    static RequestSpecification specificationMultipart = new RequestSpecBuilder()
+            .setBaseUri(BASE_URI)
+            .addHeader("app-id", APP_ID_VALUE)
+            .setContentType(ContentType.MULTIPART)
+            .build();
+
 
     public static Response getRequest(String endpoint, Integer expectedStatusCode){
         Response response = given()
@@ -134,4 +143,26 @@ public class BaseTest {
         return response;
     }
 
+
+    public static Response uploadFileMultipartContentType(String endpoint, Integer expectedStatusCode, String accessToken){
+        File imageFile = new File("C:\\Users\\Acer\\Desktop\\1111.jpg");
+        Response response = given()
+                //.spec(specificationMultipart)
+                .header("Authorization", "Bearer " + accessToken)
+                //.body()
+                .multiPart("multipartFile", imageFile)
+                //.formParams(imageFile).relaxedHTTPSValidation()
+                .when()
+                .log().all()
+                .post(BASE_URI + endpoint)
+                .then()
+                .log().all()
+                .statusCode(expectedStatusCode)
+                .extract().response();
+        return response;
+    }
+
+
 }
+
+
