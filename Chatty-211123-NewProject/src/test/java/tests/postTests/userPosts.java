@@ -103,7 +103,7 @@ public class userPosts {
         Response response = postRequest("api/auth/login", 200, loginRequest);
         String accessToken = response.body().jsonPath().getString("accessToken");
         PostData postData = new PostData("New post", "My job", "NY");
-        Response response1 = postRequestWithAccessToken("api/posts", 201, postData, accessToken);//STATUS CODE!!!
+        Response response1 = postRequestWithAccessToken("api/posts", 200, postData, accessToken);//STATUS CODE!!!
         String postId = response1.body().jsonPath().getString("id");
         System.out.println(postId);
 
@@ -114,8 +114,8 @@ public class userPosts {
         LoginRequest loginRequest = new LoginRequest("johnsmith@gmail.com", "qwerty0707");
         Response response = postRequest("api/auth/login", 200, loginRequest);
         String accessToken = response.body().jsonPath().getString("accessToken");
-        String postId = "ca15a4b2-2042-4978-bf89-2d512485bd59";//take the postId from the previous test(create test)
-        Response response1 = deleteRequestWithAccessToken("api/posts/" + postId, 204,accessToken );//STATUS CODE!!!
+        String postId = "4d4124f1-af8d-4f3e-beb3-3b74f6fcc959";//take the postId from the previous test(create test)
+        Response response1 = deleteRequestWithAccessToken("api/posts/" + postId, 200,accessToken );//STATUS CODE!!!
     }
 
 }

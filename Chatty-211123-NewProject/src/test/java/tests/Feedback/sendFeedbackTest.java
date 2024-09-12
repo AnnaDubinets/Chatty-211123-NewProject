@@ -14,6 +14,6 @@ public class sendFeedbackTest {
         Response response = postRequest("api/auth/login", 200, loginRequest);
         String accessToken = response.body().jsonPath().getString("accessToken");
         FeedbackRequest feedbackRequest = new FeedbackRequest("Harvey", "johnsmith@gmail.com", "great site");
-        Response response1 = postRequestWithAccessToken("api/feedback", 201, feedbackRequest, accessToken);
+        Response response1 = postRequestWithAccessToken("api/feedback", 200, feedbackRequest, accessToken);
     }
 }

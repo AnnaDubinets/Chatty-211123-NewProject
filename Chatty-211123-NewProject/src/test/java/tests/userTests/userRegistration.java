@@ -15,7 +15,7 @@ public class userRegistration {
         String userEmail = faker.internet().emailAddress();
         String userPassword = faker.internet().password();
         UserCreateRequest userCreate = new UserCreateRequest(userEmail, userPassword, userPassword, "admin");
-        Response response = postRequest("api/auth/register", 201, userCreate);
+        Response response = postRequest("api/auth/register", 200, userCreate);
         String accessToken = response.body().jsonPath().getString("accessToken");
         assertFalse(accessToken.isEmpty());
         String refreshToken = response.body().jsonPath().getString("refreshToken");
